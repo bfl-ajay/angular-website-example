@@ -16,7 +16,7 @@
     "test:e2e:report": "playwright show-report",
     "test:e2e:ui": "playwright test --ui",
     "test:playwright": "playwright test",
-    "test:cucumber": "cucumber-js --require-module ts-node/register --require 'tests/steps/**/*.ts'",
+    "test:cucumber": "cucumber-js --require-module ts-node/register --require 'tests/steps/*.ts' 'tests/features/**/*.feature'",
     "test:all": "npm run test && npm run test:e2e"
   },
   "private": true,
