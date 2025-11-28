@@ -241,9 +241,10 @@ Then('a dropdown menu should appear', async () => {
  */
 
 When('the API fails', async () => {
-  await page.context().addInitData({
-    offline: true,
-  });
+  // Set the page to offline mode
+  await page.context().setOffline(true);
+  // Or route specific API calls to fail
+  await page.route('**/api/**', route => route.abort());
 });
 
 Then('an error message should be displayed', async () => {
