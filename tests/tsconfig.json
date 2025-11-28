@@ -3,6 +3,8 @@
   "compilerOptions": {
     "outDir": "../dist/tests",
     "rootDir": ".",
+    "module": "commonjs",
+    "esModuleInterop": true,
     "types": ["@playwright/test", "@cucumber/cucumber", "node"]
   },
   "include": ["**/*.ts"],
