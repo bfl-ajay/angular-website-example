@@ -1,0 +1,29 @@
+# Playwright test artifacts
+test-results/
+playwright-report/
+*.png
+*.mp4
+
+# Cucumber reports
+cucumber-report.html
+cucumber-report.json
+cucumber-report.xml
+
+# Compiled test files
+dist/tests/
+
+# IDE
+.idea/
+.vscode/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
