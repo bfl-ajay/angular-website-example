@@ -4,9 +4,14 @@
  * This file demonstrates how to extend step definitions for custom scenarios.
  * Copy patterns from here to add new test scenarios.
  *
+ * NOTE: This file is for reference only and does not register actual step definitions.
+ * The step definitions below are commented out to prevent conflicts.
+ * Copy and uncomment the patterns you need in your own step definition files.
+ *
  * Location: tests/steps/custom-steps.ts (optional)
  */
 
+/*
 import { Given, When, Then } from '@cucumber/cucumber';
 import { Page, expect } from '@playwright/test';
 import { TestUtils, Selectors } from './test-utils';
@@ -275,8 +280,11 @@ Then('an error message should be displayed', async () => {
  *     Then the services list should have at least 3 items
  *     And each service should have a title and description
  *
- *   Scenario: Page is responsive on mobile
+   Scenario: Page is responsive on mobile
  *     Given I view the page on mobile
  *     And I navigate to the home page
  *     Then the layout should be responsive
  */
+
+// This file exports nothing - it's for reference only
+export {};
