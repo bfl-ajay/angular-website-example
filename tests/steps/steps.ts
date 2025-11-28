@@ -233,7 +233,12 @@ Then('the image should be displayed in a larger view', async () => {
 Then('navigation controls should be available', async () => {
   const prevBtn = await page.locator('[class*="prev"], [class*="previous"]').first();
   const nextBtn = await page.locator('[class*="next"]').first();
-  const isVisible = await prevBtn.isVisible().catch(() => false);
+  let isVisible = false;
+  try {
+    isVisible = await prevBtn.isVisible();
+  } catch {
+    isVisible = false;
+  }
   if (isVisible) {
     await expect(prevBtn).toBeVisible();
   }
@@ -343,7 +348,7 @@ Then('cards should be properly formatted for mobile', async () => {
 });
 
 Then('all content should be readable on mobile', async () => {
-  const text = await page.textContent();
+  const text = await page.locator('body').textContent();
   expect(text).toBeTruthy();
 });
 
@@ -554,6 +559,6 @@ Then('cards should stack vertically on mobile', async () => {
 });
 
 Then('all text should be readable on mobile devices', async () => {
-  const text = await page.textContent();
+  const text = await page.locator('body').textContent();
   expect(text).toBeTruthy();
 });
