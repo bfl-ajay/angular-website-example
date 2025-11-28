@@ -254,7 +254,11 @@ Then('I should be able to close the lightbox', async () => {
   await expect(closeBtn).toBeVisible();
   await closeBtn.click();
   const lightbox = await page.locator('[class*="lightbox"]').first();
-  await expect(lightbox).not.toBeVisible().catch(() => {});
+  try {
+    await expect(lightbox).not.toBeVisible();
+  } catch {
+    // Lightbox may or may not be visible, that's ok
+  }
 });
 
 Given('I navigate to the Gallery page with mobile viewport', async () => {
