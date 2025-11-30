@@ -1,11 +1,24 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["ES2022", "dom"],
     "outDir": "../dist/tests",
     "rootDir": ".",
-    "module": "commonjs",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "moduleResolution": "node",
     "types": ["@playwright/test", "@cucumber/cucumber", "node"]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

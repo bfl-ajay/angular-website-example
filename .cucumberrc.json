@@ -1,0 +1,14 @@
+{
+  "default": {
+    "require": [
+      "tests/steps/steps.ts"
+    ],
+    "requireModule": [
+      "ts-node/register"
+    ],
+    "format": [
+      "progress"
+    ]
+  }
+}
+
