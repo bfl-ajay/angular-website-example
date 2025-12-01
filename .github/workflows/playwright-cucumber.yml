@@ -44,9 +44,13 @@ jobs:
           exit 1
 
       - name: Run Tests
-        run: npx cucumber-js --require-module ts-node/register --require 'tests/steps/*.ts' 'tests/features/**/*.feature'
+        run: npx cucumber-js --require-module ts-node/register --require 'tests/steps/*.ts' 'tests/features/**/*.feature' --format json:reports/cucumber-report.json --format summary
         env:
           TS_NODE_PROJECT: tests/tsconfig.json
+
+      - name: Generate HTML Report
+        if: always()
+        run: node scripts/generate-report.js
 
       - name: Upload Reports
         if: always()

@@ -16,7 +16,8 @@
     "test:e2e:report": "playwright show-report",
     "test:e2e:ui": "playwright test --ui",
     "test:playwright": "playwright test",
-    "test:cucumber": "cucumber-js --require-module ts-node/register --require tests/steps/steps.ts tests/features/",
+    "test:cucumber": "cucumber-js --require-module ts-node/register --require tests/steps/steps.ts --format json:reports/cucumber-report.json --format html:reports/cucumber-report.html tests/features/",
+    "test:cucumber:report": "node scripts/generate-report.js",
     "test:all": "npm run test && npm run test:e2e"
   },
   "private": true,
@@ -70,6 +71,7 @@
     "ts-node": "~10.9.2",
     "typescript": "5.2.2",
     "@playwright/test": "^1.40.0",
-    "@cucumber/cucumber": "^9.5.0"
+    "@cucumber/cucumber": "^9.5.0",
+    "cucumber-html-reporter": "^5.5.0"
   }
 }
