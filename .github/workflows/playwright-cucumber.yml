@@ -24,10 +24,32 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Start Angular Server
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Wait for Server to Start
+        run: |
+          echo "Waiting for server to start..."
+          for i in {1..60}; do
+            if curl -f http://localhost:4200/ 2>/dev/null; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i/60 - Server not ready yet..."
+            sleep 2
+          done
+          echo "Server failed to start within 120 seconds"
+          exit 1
+
       - name: Run Tests
         run: npx cucumber-js --require-module ts-node/register --require 'tests/steps/*.ts' 'tests/features/**/*.feature'
+        env:
+          TS_NODE_PROJECT: tests/tsconfig.json
 
       - name: Upload Reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
