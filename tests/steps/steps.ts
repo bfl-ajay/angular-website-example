@@ -1,6 +1,7 @@
 import { Given, When, Then, Before, After, setDefaultTimeout } from '@cucumber/cucumber';
 import { expect, Page } from '@playwright/test';
 import { chromium, Browser } from '@playwright/test';
+import { TEST_CONFIG } from './test-config';
 
 // Set Cucumber timeout to 20 seconds to accommodate page loads
 setDefaultTimeout(20000);
@@ -449,26 +450,26 @@ When('I view a testimonial card', async () => {
 });
 
 Then('it should display the client name', async () => {
-	const firstCard = await page.locator('[class*="testimonial"], [class*="feedback"]').first();
-	const name = await firstCard.locator('[class*="name"], h4, h5').first();
+	const firstCard = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).first();
+	const name = await firstCard.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL_NAME).first();
 	await expect(name).toBeVisible({ timeout: 10000 });
 });
 
 Then('it should display the client position', async () => {
-	const firstCard = await page.locator('[class*="testimonial"], [class*="feedback"]').first();
-	const position = await firstCard.locator('[class*="position"], [class*="title"], small').first();
+	const firstCard = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).first();
+	const position = await firstCard.locator('footer').first();
 	await expect(position).toBeVisible({ timeout: 10000 });
 });
 
 Then('it should display the testimonial text', async () => {
-	const firstCard = await page.locator('[class*="testimonial"], [class*="feedback"]').first();
-	const text = await firstCard.locator('p, [class*="text"], [class*="message"]').first();
+	const firstCard = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).first();
+	const text = await firstCard.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL_TEXT).first();
 	await expect(text).toBeVisible({ timeout: 10000 });
 });
 
 Then('it should display a user image or avatar', async () => {
-	const firstCard = await page.locator('[class*="testimonial"], [class*="feedback"]').first();
-	const image = await firstCard.locator('img, [class*="avatar"]').first();
+	const firstCard = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).first();
+	const image = await firstCard.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL_IMAGE).first();
 	await expect(image).toBeVisible({ timeout: 10000 });
 });
 
