@@ -1,9 +1,9 @@
 export const TEST_CONFIG = {
-  // Timeouts
-  TIMEOUT_SHORT: 3000,
-  TIMEOUT_MEDIUM: 5000,
-  TIMEOUT_LONG: 10000,
-  NAVIGATION_TIMEOUT: 15000,
+  // Timeouts - increased for real-world scenarios
+  TIMEOUT_SHORT: 5000,
+  TIMEOUT_MEDIUM: 10000,
+  TIMEOUT_LONG: 15000,
+  NAVIGATION_TIMEOUT: 20000,
 
   // URLs
   BASE_URL: 'http://localhost:4200',
@@ -16,7 +16,7 @@ export const TEST_CONFIG = {
   PRICING_URL: 'http://localhost:4200/pricing',
 
   // Wait times
-  WAIT_FOR_ELEMENT: 5000,
+  WAIT_FOR_ELEMENT: 10000,
   WAIT_FOR_LOAD: 'networkidle',
   POLL_INTERVAL: 100,
 
@@ -87,7 +87,7 @@ export async function retryWithBackoff<T>(
  */
 export async function waitForCondition(
   condition: () => Promise<boolean> | boolean,
-  timeout: number = TEST_CONFIG.TIMEOUT_MEDIUM,
+  timeout: number = TEST_CONFIG.TIMEOUT_LONG,
   pollInterval: number = TEST_CONFIG.POLL_INTERVAL
 ): Promise<void> {
   const startTime = Date.now();

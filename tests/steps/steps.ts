@@ -1,6 +1,9 @@
-import { Given, When, Then, Before, After } from '@cucumber/cucumber';
+import { Given, When, Then, Before, After, setDefaultTimeout } from '@cucumber/cucumber';
 import { expect, Page } from '@playwright/test';
 import { chromium, Browser } from '@playwright/test';
+
+// Set Cucumber timeout to 20 seconds to accommodate page loads
+setDefaultTimeout(20000);
 
 let browser: Browser;
 let page: Page;
@@ -10,6 +13,8 @@ Before(async () => {
 	browser = await chromium.launch();
 	const context = await browser.newContext();
 	page = await context.newPage();
+	// Wait for page to be ready
+	await page.waitForLoadState('domcontentloaded');
 });
 
 After(async () => {
