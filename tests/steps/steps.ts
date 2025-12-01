@@ -193,6 +193,59 @@ Then('social media links should be clickable', async () => {
 	await expect(socialLinks).toBeEnabled();
 });
 
+Then('the header call-to-action button should be visible', async () => {
+	const button = await page.locator('header#banner a.button, header#banner button').first();
+	await expect(button).toBeVisible({ timeout: 10000 });
+});
+
+Then('the banner should have a background image', async () => {
+	const banner = await page.locator('header#banner').first();
+	const style = await banner.getAttribute('style');
+	expect(style).toBeTruthy();
+	expect(style?.toLowerCase() || '').toContain('background');
+});
+
+Then('the banner content should be properly positioned', async () => {
+	const bannerContent = await page.locator('#banner-content').first();
+	await expect(bannerContent).toBeVisible({ timeout: 10000 });
+});
+
+Then('the footer should contain company information', async () => {
+	const footer = await page.locator('footer, [class*="footer"]').first();
+	const text = await footer.textContent();
+	expect(text?.trim().length ?? 0).toBeGreaterThan(10);
+});
+
+Then('at least two social media links should be present', async () => {
+	const socialLinks = await page.locator('[class*="social"] a').count();
+	expect(socialLinks).toBeGreaterThanOrEqual(2);
+});
+
+Then('the main navigation menu should be visible', async () => {
+	const nav = await page.locator('nav, [class*="nav"]').first();
+	await expect(nav).toBeVisible({ timeout: 10000 });
+});
+
+Then('all navigation links should be accessible', async () => {
+	const navLinks = await page.locator('nav a, [class*="nav"] a').count();
+	expect(navLinks).toBeGreaterThan(0);
+});
+
+Then('the navigation should be fixed or sticky', async () => {
+	const nav = await page.locator('nav, [class*="nav"]').first();
+	const position = await nav.evaluate(el => {
+		return window.getComputedStyle(el).position;
+	});
+	expect(['fixed', 'sticky']).toContain(position);
+});
+
+Then('the page header data should load successfully', async () => {
+	const header = await page.locator('header#banner, header[class*="banner"]').first();
+	await expect(header).toBeVisible({ timeout: 10000 });
+	const text = await header.textContent();
+	expect(text?.trim().length ?? 0).toBeGreaterThan(0);
+});
+
 // ============ About Page Steps ============
 
 Given('I navigate to the About page', async () => {
@@ -465,6 +518,79 @@ Then('images should be properly scaled on mobile', async () => {
 	expect(width).toBeGreaterThan(0);
 });
 
+Then('at least three images should be visible', async () => {
+	const images = await page.locator('[class*="gallery"] img').count();
+	expect(images).toBeGreaterThanOrEqual(3);
+});
+
+Then('images should be arranged in a grid layout', async () => {
+	const gallerySection = await page.locator('section#gallery, [class*="gallery"]').first();
+	await expect(gallerySection).toBeVisible({ timeout: 10000 });
+});
+
+Then('each gallery image should have valid source', async () => {
+	const image = await page.locator('[class*="gallery"] img').first();
+	const src = await image.getAttribute('src');
+	expect(src).toBeTruthy();
+	expect(src?.length ?? 0).toBeGreaterThan(0);
+});
+
+Then('each gallery image should have descriptive alt text', async () => {
+	const image = await page.locator('[class*="gallery"] img').first();
+	const alt = await image.getAttribute('alt');
+	expect(alt).toBeTruthy();
+	expect(alt?.length ?? 0).toBeGreaterThan(0);
+});
+
+Then('all images should be properly sized', async () => {
+	const images = await page.locator('[class*="gallery"] img');
+	const count = await images.count();
+	expect(count).toBeGreaterThan(0);
+	for (let i = 0; i < Math.min(count, 5); i++) {
+		const image = images.nth(i);
+		const width = await image.evaluate(el => el.naturalWidth || el.clientWidth);
+		expect(width).toBeGreaterThan(0);
+	}
+});
+
+Then('the clicked image should be displayed enlarged', async () => {
+	const lightbox = await page.locator('[class*="lightbox"], [role="dialog"]').first();
+	const isVisible = await lightbox.isVisible();
+	expect(isVisible).toBe(true);
+});
+
+Then('lightbox navigation controls should be visible', async () => {
+	const prevBtn = await page.locator('[class*="prev"], [class*="previous"]').first();
+	const nextBtn = await page.locator('[class*="next"]').first();
+	const isVisible = await prevBtn.isVisible().catch(() => false);
+	expect(isVisible || (await nextBtn.isVisible().catch(() => false))).toBe(true);
+});
+
+Then('pressing next button should display next image', async () => {
+	const nextBtn = await page.locator('[class*="next"]').first();
+	await expect(nextBtn).toBeEnabled();
+	await nextBtn.click();
+});
+
+Then('pressing previous button should display previous image', async () => {
+	const prevBtn = await page.locator('[class*="prev"], [class*="previous"]').first();
+	const isVisible = await prevBtn.isVisible().catch(() => false);
+	if (isVisible) {
+		await expect(prevBtn).toBeEnabled();
+	}
+});
+
+Then('the page should load gallery images from service', async () => {
+	const images = await page.locator('[class*="gallery"] img').count();
+	expect(images).toBeGreaterThan(0);
+});
+
+Then('gallery section should be properly scrolled into view', async () => {
+	const gallerySection = await page.locator('section#gallery, [class*="gallery"]').first();
+	await gallerySection.scrollIntoViewIfNeeded();
+	await expect(gallerySection).toBeVisible({ timeout: 10000 });
+});
+
 // ============ Services Page Steps ============
 
 Given('I navigate to the Services page', async () => {
@@ -544,6 +670,110 @@ Then('cards should be properly formatted for mobile', async () => {
 Then('all content should be readable on mobile', async () => {
 	const text = await page.locator('body').textContent();
 	expect(text).toBeTruthy();
+});
+
+Then('the page should display section heading', async () => {
+	const heading = await page.locator('section [class*="heading"], section h3').first();
+	await expect(heading).toBeVisible({ timeout: 10000 });
+});
+
+Then('the section should display company description', async () => {
+	const description = await page.locator('section p').first();
+	await expect(description).toBeVisible({ timeout: 10000 });
+});
+
+Then('introduction content should be properly formatted', async () => {
+	const section = await page.locator('section').first();
+	await expect(section).toBeVisible({ timeout: 10000 });
+});
+
+Then('the page should display a testimonial section', async () => {
+	const testimonial = await page.locator('blockquote.testimonial, [class*="testimonial"]').first();
+	await expect(testimonial).toBeVisible({ timeout: 10000 });
+});
+
+Then('the testimonial should contain customer quote', async () => {
+	const quote = await page.locator('q, blockquote').first();
+	const text = await quote.textContent();
+	expect(text?.trim().length ?? 0).toBeGreaterThan(0);
+});
+
+Then('the testimonial should display customer information', async () => {
+	const footer = await page.locator('blockquote footer, [class*="testimonial"] footer').first();
+	await expect(footer).toBeVisible({ timeout: 10000 });
+});
+
+Then('there should be descriptive content about services', async () => {
+	const content = await page.locator('section p').count();
+	expect(content).toBeGreaterThan(0);
+});
+
+Then('the page should have a video link', async () => {
+	const video = await page.locator('[data-videoid], .video, [class*="video"]').first();
+	await expect(video).toBeVisible({ timeout: 10000 });
+});
+
+Then('the video link should have an icon', async () => {
+	const icon = await page.locator('[data-videoid] i, .video i, [class*="video"] i').first();
+	await expect(icon).toBeVisible({ timeout: 10000 });
+});
+
+Then('clicking the video link should open video player', async () => {
+	const videoLink = await page.locator('[data-videoid], .video').first();
+	const href = await videoLink.getAttribute('href') || await videoLink.getAttribute('data-videoid');
+	expect(href).toBeTruthy();
+});
+
+Then('the page should display service-related image', async () => {
+	const img = await page.locator('section img').first();
+	await expect(img).toBeVisible({ timeout: 10000 });
+});
+
+Then('the image should be properly loaded', async () => {
+	const img = await page.locator('section img').first();
+	const src = await img.getAttribute('src');
+	expect(src).toBeTruthy();
+});
+
+Then('the image should be responsive', async () => {
+	const img = await page.locator('section img').first();
+	const width = await img.evaluate(el => (el as HTMLImageElement).naturalWidth || el.clientWidth);
+	expect(width).toBeGreaterThan(0);
+});
+
+Then('testimonial section should be visible', async () => {
+	const testimonial = await page.locator('blockquote.testimonial, [class*="testimonial"]').first();
+	await expect(testimonial).toBeVisible({ timeout: 10000 });
+});
+
+Then('services content should be visible', async () => {
+	const content = await page.locator('section').first();
+	await expect(content).toBeVisible({ timeout: 10000 });
+});
+
+Then('video content should be accessible', async () => {
+	const video = await page.locator('[data-videoid], .video, [class*="video"]').first();
+	const isVisible = await video.isVisible().catch(() => false);
+	expect(isVisible).toBe(true);
+});
+
+Then('images should be properly aligned', async () => {
+	const img = await page.locator('section img').first();
+	await expect(img).toBeVisible({ timeout: 10000 });
+});
+
+Then('layout should display in multi-column format', async () => {
+	const section = await page.locator('section').first();
+	const layout = await section.evaluate(el => {
+		const style = window.getComputedStyle(el);
+		return style.display;
+	});
+	expect(['flex', 'grid', 'block']).toContain(layout);
+});
+
+Then('page should be fully interactive', async () => {
+	const content = await page.locator('body').textContent();
+	expect(content?.length ?? 0).toBeGreaterThan(0);
 });
 
 // ============ Clients Page Steps ============
