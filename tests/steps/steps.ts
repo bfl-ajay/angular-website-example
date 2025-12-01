@@ -86,7 +86,7 @@ Then('pricing plans should be listed', async () => {
 });
 
 Then('testimonial cards should be visible', async () => {
-	const testimonials = await page.locator('[class*="testimonial"], [class*="feedback"]').count();
+	const testimonials = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).count();
 	expect(testimonials).toBeGreaterThan(0);
 });
 
@@ -439,13 +439,13 @@ Then('testimonial cards should be displayed', async () => {
 });
 
 Then('each testimonial should have content', async () => {
-	const firstCard = await page.locator('[class*="testimonial"], [class*="feedback"]').first();
+	const firstCard = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).first();
 	const content = await firstCard.textContent();
 	expect(content).toBeTruthy();
 });
 
 When('I view a testimonial card', async () => {
-	const card = await page.locator('[class*="testimonial"], [class*="feedback"]').first();
+	const card = await page.locator(TEST_CONFIG.SELECTORS.TESTIMONIAL).first();
 	await card.scrollIntoViewIfNeeded();
 });
 
