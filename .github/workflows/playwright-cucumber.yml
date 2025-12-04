@@ -58,3 +58,21 @@ jobs:
         with:
           name: test-report
           path: reports/
+
+      # Send an email notification when the job fails.
+      # Requires repository secrets: SMTP_SERVER, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD, SENDER_EMAIL
+      - name: Send email on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          secure: true
+          subject: "[CI] Playwright+Cucumber E2E Failed — ${{ github.repository }} #${{ github.run_number }}"
+          from: ${{ secrets.SENDER_EMAIL }}
+          to: "ajay.singh33@bajajfinserv.in"
+          body: |
+            The workflow run ${{ github.run_number }} for `${{ github.repository }}` has failed.
+            View the run details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
