@@ -21,17 +21,17 @@ import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../../shared/services/config.service';
 import { Feedback } from '../models/feedback.model';
 import { Testimonial } from '../models/testimonial.model';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf, NgForOf } from '@angular/common';
 import { FeedbackBlockComponent } from '../feedback-block/feedback-block.component';
 
 @Component({
 	selector: 'app-testimonial-page',
 	templateUrl: './testimonial-page.component.html',
 	standalone: true,
-	imports: [FeedbackBlockComponent, AsyncPipe],
+	imports: [FeedbackBlockComponent, AsyncPipe, NgIf, NgForOf],
 })
 export class TestimonialPageComponent implements OnInit {
-	testimonials$: Observable<Testimonial[]>;
+	testimonials$: Observable<Testimonial>;
 	feedback$: Observable<Feedback[]>;
 
 	constructor(private config: ConfigService) {}
