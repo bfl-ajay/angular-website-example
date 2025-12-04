@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install
+npm i
 ```
 
 This will install all dependencies including:
