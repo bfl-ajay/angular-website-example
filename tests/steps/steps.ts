@@ -653,7 +653,7 @@ Then('all images should be properly sized', async () => {
 	expect(count).toBeGreaterThan(0);
 	for (let i = 0; i < Math.min(count, 5); i++) {
 		const image = images.nth(i);
-		const width = await image.evaluate(el => el.naturalWidth || el.clientWidth);
+		const width = await image.evaluate(el => (el as HTMLImageElement).naturalWidth || el.clientWidth);
 		expect(width).toBeGreaterThan(0);
 	}
 });
